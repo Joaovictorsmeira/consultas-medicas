@@ -1,0 +1,721 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Paciente - Sistema Médico{% endblock %}
+
+{% block extra_css %}
+<style>
+.medico-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.medico-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.medico-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.calendar-header {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 8px 4px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.calendar-day {
+    background-color: white;
+    padding: 6px 4px;
+    min-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background-color: #f8f9fa;
+}
+
+.calendar-day.other-month {
+    color: #adb5bd;
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.calendar-day.past {
+    color: #adb5bd;
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.calendar-day.available {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #28a745;
+}
+
+.calendar-day.available:hover {
+    background: linear-gradient(135deg, #c3e6cb, #b8dabd);
+    transform: scale(1.05);
+}
+
+.calendar-day.selected {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    font-weight: bold;
+    transform: scale(1.1);
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+}
+
+.calendar-day.today {
+    border: 2px solid #ffc107;
+    font-weight: bold;
+}
+
+.horarios-container {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid #dee2e6;
+}
+
+.horarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.horario-btn {
+    padding: 8px 6px;
+    border: 2px solid #28a745;
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.horario-btn:hover {
+    background: linear-gradient(135deg, #c3e6cb, #b8dabd);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(40,167,69,0.3);
+}
+
+.horario-btn.selected {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border-color: #007bff;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,123,255,0.4);
+}
+
+.horario-btn.ocupado {
+    background: linear-gradient(135deg, #f8d7da, #f1aeb5);
+    border-color: #dc3545;
+    color: #721c24;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.especialidade-badge {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.valor-destaque {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.btn-agendar {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: none;
+    color: white;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-agendar:hover {
+    background: linear-gradient(135deg, #20c997, #17a2b8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40,167,69,0.3);
+}
+
+.btn-agendar:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.month-navigation {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.consulta-card {
+    border-left: 4px solid #007bff;
+    transition: all 0.2s;
+}
+
+.consulta-card:hover {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transform: translateX(5px);
+}
+
+.status-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2><i class="fas fa-tachometer-alt text-primary"></i> Dashboard Paciente</h2>
+                <p class="text-muted mb-0">Bem-vindo, {{ user.get_full_name }}</p>
+            </div>
+            <div class="text-end">
+                <small class="text-muted">
+                    <i class="fas fa-calendar"></i> {{ "now"|date:"d/m/Y H:i" }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+<ul class="nav nav-tabs nav-fill" id="dashboardTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="medicos-tab" data-bs-toggle="tab" data-bs-target="#medicos" type="button" role="tab">
+            <i class="fas fa-user-md"></i> Agendar Consulta
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="consultas-tab" data-bs-toggle="tab" data-bs-target="#consultas" type="button" role="tab">
+            <i class="fas fa-calendar-check"></i> Minhas Consultas ({{ consultas.count }})
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="dashboardTabsContent">
+    <!-- Tab Médicos -->
+    <div class="tab-pane fade show active" id="medicos" role="tabpanel">
+        <div class="row mt-4">
+            <div class="col-12">
+                <h4><i class="fas fa-user-md text-primary"></i> Médicos Disponíveis</h4>
+                <p class="text-muted">Selecione um médico para ver sua agenda e agendar uma consulta</p>
+            </div>
+        </div>
+        
+        {% if medicos %}
+        <div class="row">
+            {% for medico in medicos %}
+            <div class="col-lg-6 mb-4">
+                <div class="card medico-card h-100 fade-in">
+                    <div class="card-header bg-gradient text-white" style="background: linear-gradient(135deg, #007bff, #0056b3);">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-user-md"></i> Dr(a). {{ medico.user.get_full_name }}
+                            </h5>
+                            <span class="especialidade-badge">{{ medico.especialidade }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center mb-3">
+                                    <div class="mb-2">
+                                        <i class="fas fa-stethoscope fa-2x text-primary"></i>
+                                    </div>
+                                    <p class="mb-1"><strong>CRM:</strong><br>{{ medico.crm }}</p>
+                                    <p class="mb-1"><strong>Valor:</strong></p>
+                                    <p class="valor-destaque mb-2">R$ {{ medico.valor_consulta }}</p>
+                                    <p class="mb-0"><small class="text-muted">Intervalo: {{ medico.intervalo_consulta }}min</small></p>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="month-navigation d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="previousMonth({{ medico.id }})">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <h6 class="mb-0" id="monthTitle{{ medico.id }}">
+                                        <span class="loading-spinner"></span> Carregando...
+                                    </h6>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="nextMonth({{ medico.id }})">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="medico-calendar" id="calendar{{ medico.id }}">
+                                    <div class="calendar-header">D</div>
+                                    <div class="calendar-header">S</div>
+                                    <div class="calendar-header">T</div>
+                                    <div class="calendar-header">Q</div>
+                                    <div class="calendar-header">Q</div>
+                                    <div class="calendar-header">S</div>
+                                    <div class="calendar-header">S</div>
+                                    <!-- Dias serão inseridos via JavaScript -->
+                                </div>
+                                
+                                <div id="horariosContainer{{ medico.id }}" class="horarios-container" style="display: none;">
+                                    <h6><i class="fas fa-clock text-success"></i> Horários para <span id="selectedDate{{ medico.id }}"></span>:</h6>
+                                    <div class="horarios-grid" id="horarios{{ medico.id }}"></div>
+                                    
+                                    <div class="mt-3 d-flex gap-2">
+                                        <button class="btn btn-agendar flex-fill" id="agendarBtn{{ medico.id }}" onclick="agendarConsulta({{ medico.id }})" disabled>
+                                            <i class="fas fa-calendar-plus"></i> Agendar Consulta
+                                        </button>
+                                        <button class="btn btn-outline-secondary" onclick="cancelarSelecao({{ medico.id }})">
+                                            <i class="fas fa-times"></i> Cancelar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-user-md fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">Nenhum médico disponível</h5>
+            <p class="text-muted">Entre em contato com a administração para mais informações.</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Tab Consultas -->
+    <div class="tab-pane fade" id="consultas" role="tabpanel">
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-gradient text-white" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                        <h5 class="mb-0"><i class="fas fa-calendar-check"></i> Minhas Consultas</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if consultas %}
+                            <div class="row">
+                                {% for consulta in consultas %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card consulta-card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="card-title mb-0">Dr(a). {{ consulta.medico.user.get_full_name }}</h6>
+                                                <span class="badge status-badge bg-{% if consulta.status == 'agendada' %}warning{% elif consulta.status == 'confirmada' %}success{% elif consulta.status == 'realizada' %}info{% else %}secondary{% endif %}">
+                                                    {{ consulta.get_status_display }}
+                                                </span>
+                                            </div>
+                                            <p class="card-text">
+                                                <small class="text-muted">{{ consulta.medico.especialidade }}</small><br>
+                                                <i class="fas fa-calendar"></i> {{ consulta.data_hora|date:"d/m/Y" }}<br>
+                                                <i class="fas fa-clock"></i> {{ consulta.data_hora|date:"H:i" }}<br>
+                                                <i class="fas fa-dollar-sign text-success"></i> R$ {{ consulta.valor }}
+                                            </p>
+                                            {% if consulta.status == 'agendada' or consulta.status == 'confirmada' %}
+                                                <button class="btn btn-outline-danger btn-sm" onclick="cancelarConsulta({{ consulta.id }})">
+                                                    <i class="fas fa-times"></i> Cancelar
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <i class="fas fa-calendar fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">Nenhuma consulta agendada</h5>
+                                <p class="text-muted">Agende sua primeira consulta na aba "Agendar Consulta".</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação -->
+<div class="modal fade" id="confirmModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Agendamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="confirmModalBody">
+                <!-- Conteúdo será inserido via JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="confirmAgendamento">Confirmar Agendamento</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Variáveis globais
+const medicosData = {};
+const currentMonths = {};
+const selectedDates = {};
+const selectedTimes = {};
+let confirmModal;
+
+// Inicializar dados dos médicos
+{% for medico in medicos %}
+medicosData[{{ medico.id }}] = {
+    id: {{ medico.id }},
+    nome: '{{ medico.user.get_full_name }}',
+    especialidade: '{{ medico.especialidade }}',
+    valor: {{ medico.valor_consulta }},
+    intervalo: {{ medico.intervalo_consulta }}
+};
+currentMonths[{{ medico.id }}] = new Date();
+{% endfor %}
+
+// Inicializar modal
+document.addEventListener('DOMContentLoaded', function() {
+    confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+    
+    // Carregar calendários de todos os médicos
+    {% for medico in medicos %}
+    loadMedicoCalendar({{ medico.id }});
+    {% endfor %}
+});
+
+// Carregar calendário de um médico
+async function loadMedicoCalendar(medicoId) {
+    try {
+        const response = await fetch(`/api/medico/${medicoId}/calendario/`);
+        const data = await response.json();
+        
+        if (data.error) {
+            console.error('Erro:', data.error);
+            return;
+        }
+        
+        renderCalendar(medicoId, data.calendario);
+    } catch (error) {
+        console.error('Erro ao carregar calendário:', error);
+        document.getElementById(`monthTitle${medicoId}`).innerHTML = 
+            '<span class="text-danger">Erro ao carregar</span>';
+    }
+}
+
+// Renderizar calendário
+function renderCalendar(medicoId, datasDisponiveis) {
+    const calendar = document.getElementById(`calendar${medicoId}`);
+    const monthTitle = document.getElementById(`monthTitle${medicoId}`);
+    const currentMonth = currentMonths[medicoId];
+    
+    // Limpar calendário (manter cabeçalhos)
+    while (calendar.children.length > 7) {
+        calendar.removeChild(calendar.lastChild);
+    }
+    
+    // Atualizar título
+    monthTitle.textContent = currentMonth.toLocaleDateString('pt-BR', { 
+        month: 'long', 
+        year: 'numeric' 
+    });
+    
+    // Primeiro dia do mês
+    const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Gerar 42 dias (6 semanas)
+    for (let i = 0; i < 42; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
+        
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        dayElement.textContent = date.getDate();
+        
+        const dateString = date.toISOString().split('T')[0];
+        
+        // Verificar se é hoje
+        if (date.toDateString() === today.toDateString()) {
+            dayElement.classList.add('today');
+        }
+        
+        // Verificar se é do mês atual
+        if (date.getMonth() !== currentMonth.getMonth()) {
+            dayElement.classList.add('other-month');
+        }
+        // Verificar se é data passada
+        else if (date < today) {
+            dayElement.classList.add('past');
+        }
+        // Verificar se é data disponível
+        else if (datasDisponiveis[dateString]) {
+            dayElement.classList.add('available');
+            dayElement.addEventListener('click', () => selectDate(medicoId, date, dateString));
+            dayElement.title = 'Clique para ver horários disponíveis';
+        }
+        
+        calendar.appendChild(dayElement);
+    }
+}
+
+// Selecionar data
+async function selectDate(medicoId, date, dateString) {
+    // Limpar seleção anterior
+    cancelarSelecao(medicoId);
+    
+    selectedDates[medicoId] = dateString;
+    selectedTimes[medicoId] = null;
+    
+    // Atualizar visual do calendário
+    const calendar = document.getElementById(`calendar${medicoId}`);
+    const days = calendar.querySelectorAll('.calendar-day');
+    days.forEach(day => day.classList.remove('selected'));
+    
+    const selectedDay = Array.from(days).find(day => 
+        day.textContent == date.getDate() && 
+        day.classList.contains('available')
+    );
+    if (selectedDay) {
+        selectedDay.classList.add('selected');
+    }
+    
+    // Carregar horários
+    await loadHorarios(medicoId, dateString);
+    
+    // Mostrar container de horários
+    const container = document.getElementById(`horariosContainer${medicoId}`);
+    container.style.display = 'block';
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    document.getElementById(`selectedDate${medicoId}`).textContent = 
+        date.toLocaleDateString('pt-BR');
+}
+
+// Carregar horários disponíveis
+async function loadHorarios(medicoId, dateString) {
+    try {
+        const horariosContainer = document.getElementById(`horarios${medicoId}`);
+        horariosContainer.innerHTML = '<div class="loading-spinner"></div>';
+        
+        const response = await fetch(`/api/medico/${medicoId}/horarios/${dateString}/`);
+        const data = await response.json();
+        
+        horariosContainer.innerHTML = '';
+        
+        if (data.horarios && data.horarios.length > 0) {
+            data.horarios.forEach(horario => {
+                const horarioBtn = document.createElement('div');
+                horarioBtn.className = 'horario-btn';
+                horarioBtn.textContent = horario.hora;
+                
+                if (horario.disponivel) {
+                    horarioBtn.addEventListener('click', () => selectTime(medicoId, horario.hora));
+                    horarioBtn.title = 'Clique para selecionar este horário';
+                } else {
+                    horarioBtn.classList.add('ocupado');
+                    horarioBtn.title = 'Horário ocupado';
+                }
+                
+                horariosContainer.appendChild(horarioBtn);
+            });
+        } else {
+            horariosContainer.innerHTML = '<p class="text-muted text-center">Nenhum horário disponível</p>';
+        }
+        
+    } catch (error) {
+        console.error('Erro ao carregar horários:', error);
+        document.getElementById(`horarios${medicoId}`).innerHTML = 
+            '<p class="text-danger text-center">Erro ao carregar horários</p>';
+    }
+}
+
+// Selecionar horário
+function selectTime(medicoId, hora) {
+    selectedTimes[medicoId] = hora;
+    
+    // Atualizar visual dos horários
+    const horarios = document.getElementById(`horarios${medicoId}`);
+    const btns = horarios.querySelectorAll('.horario-btn');
+    btns.forEach(btn => btn.classList.remove('selected'));
+    
+    const selectedBtn = Array.from(btns).find(btn => btn.textContent === hora);
+    if (selectedBtn) {
+        selectedBtn.classList.add('selected');
+    }
+    
+    // Habilitar botão de agendar
+    document.getElementById(`agendarBtn${medicoId}`).disabled = false;
+}
+
+// Agendar consulta
+function agendarConsulta(medicoId) {
+    const data = selectedDates[medicoId];
+    const hora = selectedTimes[medicoId];
+    
+    if (!data || !hora) {
+        alert('Selecione uma data e horário');
+        return;
+    }
+    
+    const medico = medicosData[medicoId];
+    const dataFormatada = new Date(data + 'T00:00:00').toLocaleDateString('pt-BR');
+    
+    // Mostrar modal de confirmação
+    document.getElementById('confirmModalBody').innerHTML = `
+        <div class="text-center">
+            <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
+            <h5>Confirmar Agendamento</h5>
+            <div class="card bg-light">
+                <div class="card-body">
+                    <p><strong>Médico:</strong> Dr(a). ${medico.nome}</p>
+                    <p><strong>Especialidade:</strong> ${medico.especialidade}</p>
+                    <p><strong>Data:</strong> ${dataFormatada}</p>
+                    <p><strong>Horário:</strong> ${hora}</p>
+                    <p><strong>Valor:</strong> <span class="text-success">R$ ${medico.valor.toFixed(2)}</span></p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('confirmAgendamento').onclick = function() {
+        confirmarAgendamento(medicoId, data, hora);
+    };
+    
+    confirmModal.show();
+}
+
+// Confirmar agendamento
+function confirmarAgendamento(medicoId, data, hora) {
+    const dataHora = `${data}T${hora}:00`;
+
+    // Pega o token CSRF do <meta>
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    // Cria o form dinamicamente
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{% url "agendar_consulta" %}';
+
+    form.innerHTML = `
+        <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+        <input type="hidden" name="medico_id" value="${medicoId}">
+        <input type="hidden" name="data_hora" value="${dataHora}">
+    `;
+
+    document.body.appendChild(form);
+    confirmModal.hide();
+    form.submit();
+}
+
+// Cancelar seleção
+function cancelarSelecao(medicoId) {
+    selectedDates[medicoId] = null;
+    selectedTimes[medicoId] = null;
+    
+    document.getElementById(`horariosContainer${medicoId}`).style.display = 'none';
+    document.getElementById(`agendarBtn${medicoId}`).disabled = true;
+    
+    // Limpar seleções visuais
+    const calendar = document.getElementById(`calendar${medicoId}`);
+    const days = calendar.querySelectorAll('.calendar-day');
+    days.forEach(day => day.classList.remove('selected'));
+    
+    const horarios = document.getElementById(`horarios${medicoId}`);
+    const btns = horarios.querySelectorAll('.horario-btn');
+    btns.forEach(btn => btn.classList.remove('selected'));
+}
+
+// Cancelar consulta
+function cancelarConsulta(consultaId) {
+    if (confirm('Tem certeza que deseja cancelar esta consulta?')) {
+        window.location.href = `/cancelar/${consultaId}/`;
+    }
+}
+
+// Navegação do calendário
+function previousMonth(medicoId) {
+    currentMonths[medicoId].setMonth(currentMonths[medicoId].getMonth() - 1);
+    cancelarSelecao(medicoId);
+    loadMedicoCalendar(medicoId);
+}
+
+function nextMonth(medicoId) {
+    currentMonths[medicoId].setMonth(currentMonths[medicoId].getMonth() + 1);
+    cancelarSelecao(medicoId);
+    loadMedicoCalendar(medicoId);
+}
+</script>
+{% endblock %}

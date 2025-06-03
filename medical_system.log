@@ -1,0 +1,229 @@
+INFO 2025-05-28 21:45:30,653 decorators 19284 13672 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-28 21:45:30,692 decorators 19284 13672 [SUCESSO] medico_dashboard executado em 0.04s
+INFO 2025-05-28 21:45:54,681 decorators 19284 13672 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-28 21:45:54,688 decorators 19284 13672 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-05-28 21:47:18,100 decorators 19284 13672 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-28 21:47:18,111 decorators 19284 13672 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-05-28 21:47:35,896 decorators 19284 13672 [INÍCIO] Usuário fazendo login
+INFO 2025-05-28 21:47:35,899 decorators 19284 13672 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-28 21:47:41,281 decorators 19284 13672 [INÍCIO] Usuário fazendo login
+INFO 2025-05-28 21:47:41,788 decorators 19284 13672 [SUCESSO] login_view executado em 0.51s
+INFO 2025-05-28 21:47:41,813 decorators 19284 13672 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 21:47:41,861 decorators 19284 13672 [SUCESSO] paciente_dashboard executado em 0.05s
+INFO 2025-05-28 21:47:56,315 decorators 19284 13672 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 21:47:56,323 decorators 19284 13672 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 21:48:04,769 decorators 19284 13672 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 21:48:04,774 decorators 19284 13672 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 21:53:40,147 decorators 19284 5704 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 21:53:40,154 decorators 19284 5704 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 22:00:56,817 decorators 2280 1800 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:00:56,839 decorators 2280 1800 [SUCESSO] paciente_dashboard executado em 0.02s
+INFO 2025-05-28 22:01:49,234 decorators 2168 14132 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:01:49,268 decorators 2168 14132 [SUCESSO] paciente_dashboard executado em 0.03s
+INFO 2025-05-28 22:02:00,217 decorators 2168 14132 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:02:00,230 decorators 2168 14132 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 22:02:25,652 decorators 2168 14132 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:02:25,662 decorators 2168 14132 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 22:02:38,159 decorators 2168 14132 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:02:38,169 decorators 2168 14132 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 22:06:16,597 decorators 2168 9708 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:06:16,603 decorators 2168 9708 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 22:06:27,040 decorators 2168 9708 [INÍCIO] Usuário fazendo login
+INFO 2025-05-28 22:06:27,042 decorators 2168 9708 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-28 22:06:32,604 decorators 2168 9708 [INÍCIO] Usuário fazendo login
+INFO 2025-05-28 22:06:33,149 decorators 2168 9708 [SUCESSO] login_view executado em 0.55s
+INFO 2025-05-28 22:06:33,174 decorators 2168 9708 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-28 22:06:33,187 decorators 2168 9708 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-05-28 22:09:44,945 decorators 2168 9708 [INÍCIO] Usuário fazendo login
+INFO 2025-05-28 22:09:44,946 decorators 2168 9708 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-28 22:09:50,419 decorators 2168 9708 [INÍCIO] Usuário fazendo login
+INFO 2025-05-28 22:09:50,951 decorators 2168 9708 [SUCESSO] login_view executado em 0.53s
+INFO 2025-05-28 22:09:50,975 decorators 2168 9708 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:09:50,983 decorators 2168 9708 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-28 22:10:28,916 decorators 2168 9708 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-28 22:10:28,925 decorators 2168 9708 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-29 13:55:43,171 decorators 13636 4292 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 13:55:43,194 decorators 13636 4292 [SUCESSO] paciente_dashboard executado em 0.02s
+INFO 2025-05-29 13:55:50,445 decorators 13636 4292 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 13:55:50,481 decorators 13636 4292 [SUCESSO] login_view executado em 0.04s
+INFO 2025-05-29 13:55:56,851 decorators 13636 4292 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 13:55:57,370 decorators 13636 4292 [SUCESSO] login_view executado em 0.52s
+INFO 2025-05-29 13:56:11,829 decorators 13636 4292 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 13:56:12,377 decorators 13636 4292 [SUCESSO] login_view executado em 0.55s
+INFO 2025-05-29 13:56:12,416 decorators 13636 4292 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-29 13:56:12,478 decorators 13636 4292 [SUCESSO] medico_dashboard executado em 0.06s
+INFO 2025-05-29 14:38:54,191 decorators 4876 10052 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 14:38:54,200 decorators 4876 10052 [SUCESSO] login_view executado em 0.01s
+INFO 2025-05-29 14:39:04,597 decorators 4876 10052 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 14:39:05,104 decorators 4876 10052 [SUCESSO] login_view executado em 0.51s
+INFO 2025-05-29 14:39:05,167 decorators 4876 10052 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 14:39:05,191 decorators 4876 10052 [SUCESSO] paciente_dashboard executado em 0.02s
+INFO 2025-05-29 14:41:22,958 decorators 4876 9580 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 14:41:22,959 decorators 4876 9580 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-29 14:41:31,687 decorators 4876 9580 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 14:41:32,202 decorators 4876 9580 [SUCESSO] login_view executado em 0.52s
+INFO 2025-05-29 14:41:32,228 decorators 4876 9580 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-29 14:41:32,249 decorators 4876 9580 [SUCESSO] medico_dashboard executado em 0.02s
+INFO 2025-05-29 14:43:54,654 decorators 4876 17040 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-29 14:43:54,668 decorators 4876 17040 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-05-29 14:43:58,303 decorators 4876 18524 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 14:43:58,395 decorators 4876 18524 [SUCESSO] login_view executado em 0.09s
+INFO 2025-05-29 14:44:03,945 decorators 4876 18524 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 14:44:05,903 decorators 4876 18524 [SUCESSO] login_view executado em 1.96s
+INFO 2025-05-29 14:44:06,983 decorators 4876 18524 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 14:44:07,913 decorators 4876 18524 [SUCESSO] paciente_dashboard executado em 0.93s
+INFO 2025-05-29 14:44:33,790 decorators 4876 18524 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 14:44:33,835 decorators 4876 18524 [SUCESSO] paciente_dashboard executado em 0.04s
+INFO 2025-05-29 15:04:23,036 decorators 8056 1956 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:04:23,049 decorators 8056 1956 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-29 15:09:21,845 decorators 20024 5936 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:09:21,874 decorators 20024 5936 [SUCESSO] paciente_dashboard executado em 0.03s
+INFO 2025-05-29 15:09:35,488 decorators 20024 10348 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:09:35,495 decorators 20024 10348 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-29 15:09:57,036 decorators 20024 13576 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:09:57,045 decorators 20024 13576 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-29 15:09:58,160 decorators 20024 13576 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:09:58,171 decorators 20024 13576 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-29 15:10:50,552 decorators 20024 13208 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:10:50,554 decorators 20024 13208 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-29 15:10:59,423 decorators 20024 20184 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:11:00,258 decorators 20024 20184 [SUCESSO] login_view executado em 0.83s
+INFO 2025-05-29 15:11:00,331 decorators 20024 20184 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-29 15:11:00,341 decorators 20024 20184 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-05-29 15:11:43,296 decorators 20024 2184 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:11:43,297 decorators 20024 2184 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-29 15:11:49,633 decorators 20024 9208 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:11:50,142 decorators 20024 9208 [SUCESSO] login_view executado em 0.51s
+INFO 2025-05-29 15:11:50,170 decorators 20024 9208 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:11:50,178 decorators 20024 9208 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-29 15:12:56,258 decorators 6228 6080 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:12:56,299 decorators 6228 6080 [SUCESSO] paciente_dashboard executado em 0.04s
+INFO 2025-05-29 15:33:54,807 decorators 6228 2896 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:33:54,944 decorators 6228 2896 [SUCESSO] paciente_dashboard executado em 0.14s
+INFO 2025-05-29 15:33:59,482 decorators 6228 2896 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:33:59,511 decorators 6228 2896 [SUCESSO] paciente_dashboard executado em 0.03s
+INFO 2025-05-29 15:34:08,354 decorators 6228 2896 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:34:08,358 decorators 6228 2896 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-29 15:34:16,266 decorators 6228 2896 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:34:16,835 decorators 6228 2896 [SUCESSO] login_view executado em 0.57s
+INFO 2025-05-29 15:34:16,888 decorators 6228 2896 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-29 15:34:16,916 decorators 6228 2896 [SUCESSO] medico_dashboard executado em 0.03s
+INFO 2025-05-29 15:34:27,979 decorators 6228 2896 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-29 15:34:27,989 decorators 6228 2896 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-05-29 15:34:31,050 decorators 6228 2896 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:34:31,051 decorators 6228 2896 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-29 15:34:35,593 decorators 6228 2896 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:34:36,085 decorators 6228 2896 [SUCESSO] login_view executado em 0.49s
+INFO 2025-05-29 15:34:45,891 decorators 6228 2896 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:34:46,411 decorators 6228 2896 [SUCESSO] login_view executado em 0.52s
+INFO 2025-05-29 15:34:46,454 decorators 6228 2896 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:34:46,492 decorators 6228 2896 [SUCESSO] paciente_dashboard executado em 0.04s
+INFO 2025-05-29 15:34:59,255 decorators 6228 2896 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:34:59,274 decorators 6228 2896 [SUCESSO] paciente_dashboard executado em 0.02s
+INFO 2025-05-29 15:35:12,691 decorators 6228 2896 [INÍCIO] Paciente acessando dashboard
+INFO 2025-05-29 15:35:12,700 decorators 6228 2896 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-05-29 15:35:16,675 decorators 6228 2896 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:35:16,677 decorators 6228 2896 [SUCESSO] login_view executado em 0.00s
+INFO 2025-05-29 15:35:21,575 decorators 6228 2896 [INÍCIO] Usuário fazendo login
+INFO 2025-05-29 15:35:22,112 decorators 6228 2896 [SUCESSO] login_view executado em 0.54s
+INFO 2025-05-29 15:35:22,137 decorators 6228 2896 [INÍCIO] Médico acessando dashboard
+INFO 2025-05-29 15:35:22,146 decorators 6228 2896 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-06-03 11:35:36,257 decorators 11004 10572 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:35:36,274 decorators 11004 10572 [SUCESSO] login_view executado em 0.02s
+INFO 2025-06-03 11:35:48,127 decorators 11004 10572 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:35:48,854 decorators 11004 10572 [SUCESSO] login_view executado em 0.73s
+INFO 2025-06-03 11:35:48,988 decorators 11004 10572 [INÍCIO] Médico acessando dashboard
+INFO 2025-06-03 11:35:49,151 decorators 11004 10572 [SUCESSO] medico_dashboard executado em 0.16s
+INFO 2025-06-03 11:37:09,331 decorators 11004 10572 [INÍCIO] Médico acessando dashboard
+INFO 2025-06-03 11:37:09,339 decorators 11004 10572 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-06-03 11:37:43,695 decorators 11004 10572 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:37:43,696 decorators 11004 10572 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:37:46,526 decorators 11004 10572 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 11:37:46,575 decorators 11004 10572 [SUCESSO] register_view executado em 0.05s
+INFO 2025-06-03 11:38:21,935 decorators 11004 10572 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 11:38:22,434 decorators 11004 10572 [SUCESSO] register_view executado em 0.50s
+INFO 2025-06-03 11:38:22,438 decorators 11004 10572 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:38:22,440 decorators 11004 10572 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:38:32,422 decorators 11004 10572 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:38:32,933 decorators 11004 10572 [SUCESSO] login_view executado em 0.51s
+INFO 2025-06-03 11:38:32,965 decorators 11004 10572 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 11:38:33,031 decorators 11004 10572 [SUCESSO] paciente_dashboard executado em 0.07s
+INFO 2025-06-03 11:38:53,003 decorators 11004 12336 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 11:38:53,012 decorators 11004 12336 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-06-03 11:39:12,388 decorators 11004 12336 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:39:12,389 decorators 11004 12336 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:39:19,534 decorators 11004 11088 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:39:20,051 decorators 11004 11088 [SUCESSO] login_view executado em 0.52s
+INFO 2025-06-03 11:39:20,075 decorators 11004 11088 [INÍCIO] Médico acessando dashboard
+INFO 2025-06-03 11:39:20,085 decorators 11004 11088 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-06-03 11:41:12,827 decorators 11004 7332 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:41:12,828 decorators 11004 7332 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:41:15,351 decorators 11004 7332 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 11:41:15,357 decorators 11004 7332 [SUCESSO] register_view executado em 0.01s
+INFO 2025-06-03 11:42:02,734 decorators 11004 17904 [INÍCIO] Novo usuário se registrando
+ERROR 2025-06-03 11:42:03,274 views 11004 17904 Erro ao criar usuário: (1062, "Duplicate entry '99901-DF' for key 'perfis_medicos.crm'")
+INFO 2025-06-03 11:42:03,276 decorators 11004 17904 [SUCESSO] register_view executado em 0.54s
+INFO 2025-06-03 11:42:57,369 decorators 11004 14812 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 11:42:57,376 decorators 11004 14812 [SUCESSO] register_view executado em 0.01s
+INFO 2025-06-03 11:43:54,402 decorators 11004 14812 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 11:43:54,918 decorators 11004 14812 [SUCESSO] register_view executado em 0.52s
+INFO 2025-06-03 11:43:54,922 decorators 11004 14812 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:43:54,923 decorators 11004 14812 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:44:03,191 decorators 11004 3928 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:44:03,723 decorators 11004 3928 [SUCESSO] login_view executado em 0.53s
+INFO 2025-06-03 11:44:03,755 decorators 11004 3928 [INÍCIO] Médico acessando dashboard
+INFO 2025-06-03 11:44:03,762 decorators 11004 3928 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-06-03 11:44:36,363 decorators 11004 1540 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:44:36,364 decorators 11004 1540 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:44:42,880 decorators 11004 1540 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:44:43,397 decorators 11004 1540 [SUCESSO] login_view executado em 0.52s
+INFO 2025-06-03 11:44:43,420 decorators 11004 1540 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 11:44:43,430 decorators 11004 1540 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-06-03 11:45:20,445 decorators 11004 13868 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 11:45:20,454 decorators 11004 13868 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-06-03 11:45:31,076 decorators 11004 13868 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:45:31,077 decorators 11004 13868 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:45:35,593 decorators 11004 8636 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:45:36,119 decorators 11004 8636 [SUCESSO] login_view executado em 0.53s
+INFO 2025-06-03 11:45:36,141 decorators 11004 8636 [INÍCIO] Médico acessando dashboard
+INFO 2025-06-03 11:45:36,152 decorators 11004 8636 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-06-03 11:52:20,998 decorators 11004 6440 [INÍCIO] Médico acessando dashboard
+INFO 2025-06-03 11:52:21,004 decorators 11004 6440 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-06-03 11:52:24,843 decorators 11004 6440 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:52:24,844 decorators 11004 6440 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:52:33,198 decorators 11004 6440 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:52:33,703 decorators 11004 6440 [SUCESSO] login_view executado em 0.51s
+INFO 2025-06-03 11:52:33,727 decorators 11004 6440 [INÍCIO] Médico acessando dashboard
+INFO 2025-06-03 11:52:33,738 decorators 11004 6440 [SUCESSO] medico_dashboard executado em 0.01s
+INFO 2025-06-03 11:52:59,526 decorators 11004 6440 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:52:59,528 decorators 11004 6440 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 11:53:13,933 decorators 11004 6440 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 11:53:14,440 decorators 11004 6440 [SUCESSO] login_view executado em 0.51s
+INFO 2025-06-03 11:53:14,468 decorators 11004 6440 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 11:53:14,475 decorators 11004 6440 [SUCESSO] paciente_dashboard executado em 0.01s
+INFO 2025-06-03 12:00:43,800 decorators 11004 7764 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 12:00:43,801 decorators 11004 7764 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 12:00:44,943 decorators 11004 7764 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 12:00:44,949 decorators 11004 7764 [SUCESSO] register_view executado em 0.01s
+INFO 2025-06-03 12:02:24,085 decorators 11004 7764 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 12:02:24,121 decorators 11004 7764 [SUCESSO] register_view executado em 0.04s
+INFO 2025-06-03 12:02:41,824 decorators 11004 7764 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 12:02:41,860 decorators 11004 7764 [SUCESSO] register_view executado em 0.04s
+INFO 2025-06-03 12:03:08,971 decorators 11004 7764 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 12:03:09,010 decorators 11004 7764 [SUCESSO] register_view executado em 0.04s
+INFO 2025-06-03 12:03:22,484 decorators 11004 7764 [INÍCIO] Novo usuário se registrando
+INFO 2025-06-03 12:03:22,518 decorators 11004 7764 [SUCESSO] register_view executado em 0.03s
+INFO 2025-06-03 14:01:48,703 decorators 14216 14832 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 14:01:48,730 decorators 14216 14832 [SUCESSO] login_view executado em 0.03s
+INFO 2025-06-03 14:01:55,353 decorators 14216 15552 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 14:01:56,006 decorators 14216 15552 [SUCESSO] login_view executado em 0.65s
+INFO 2025-06-03 14:01:56,079 decorators 14216 15552 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 14:01:56,079 decorators 14216 15552 [SUCESSO] paciente_dashboard executado em 0.00s
+INFO 2025-06-03 14:02:00,084 decorators 14216 9720 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 14:02:00,085 decorators 14216 9720 [SUCESSO] paciente_dashboard executado em 0.00s
+INFO 2025-06-03 14:02:02,787 decorators 14216 9720 [INÍCIO] Paciente acessando dashboard
+INFO 2025-06-03 14:02:02,788 decorators 14216 9720 [SUCESSO] paciente_dashboard executado em 0.00s
+INFO 2025-06-03 14:02:10,178 decorators 14216 15268 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 14:02:10,179 decorators 14216 15268 [SUCESSO] login_view executado em 0.00s
+INFO 2025-06-03 14:02:17,472 decorators 14216 15268 [INÍCIO] Usuário fazendo login
+INFO 2025-06-03 14:02:17,963 decorators 14216 15268 [SUCESSO] login_view executado em 0.49s

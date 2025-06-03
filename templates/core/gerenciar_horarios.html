@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Gerenciar Horários - Sistema Médico{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-clock"></i> Gerenciar Horários</h2>
+        <p class="text-muted">Configure seus horários de atendimento</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Formulário para Adicionar Horário -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-plus"></i> Adicionar Horário</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="dia_semana" class="form-label">Dia da Semana</label>
+                        <select class="form-select" id="dia_semana" name="dia_semana" required>
+                            <option value="">Selecione...</option>
+                            <option value="0">Segunda-feira</option>
+                            <option value="1">Terça-feira</option>
+                            <option value="2">Quarta-feira</option>
+                            <option value="3">Quinta-feira</option>
+                            <option value="4">Sexta-feira</option>
+                            <option value="5">Sábado</option>
+                            <option value="6">Domingo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hora_inicio" class="form-label">Hora de Início</label>
+                        <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hora_fim" class="form-label">Hora de Fim</label>
+                        <input type="time" class="form-control" id="hora_fim" name="hora_fim" required>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Adicionar Horário
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lista de Horários -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list"></i> Meus Horários</h5>
+            </div>
+            <div class="card-body">
+                {% if horarios %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Dia da Semana</th>
+                                    <th>Horário</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for horario in horarios %}
+                                <tr>
+                                    <td>{{ horario.get_dia_semana_display }}</td>
+                                    <td>{{ horario.hora_inicio }} às {{ horario.hora_fim }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if horario.ativo %}success{% else %}secondary{% endif %}">
+                                            {% if horario.ativo %}Ativo{% else %}Inativo{% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-warning" 
+                                                onclick="toggleHorario({{ horario.id }})">
+                                            <i class="fas fa-{% if horario.ativo %}pause{% else %}play{% endif %}"></i>
+                                            {% if horario.ativo %}Desativar{% else %}Ativar{% endif %}
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" 
+                                                onclick="removerHorario({{ horario.id }})">
+                                            <i class="fas fa-trash"></i> Remover
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-clock fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Nenhum horário cadastrado ainda.</p>
+                        <p class="text-muted">Use o formulário ao lado para adicionar seus horários de atendimento.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Dicas -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6><i class="fas fa-lightbulb"></i> Dicas</h6>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Configure horários regulares para facilitar o agendamento dos pacientes</li>
+                    <li>Deixe intervalos entre consultas para não sobrecarregar sua agenda</li>
+                    <li>Você pode desativar temporariamente um horário sem removê-lo</li>
+                    <li>Horários inativos não aparecerão para agendamento</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleHorario(horarioId) {
+    if (confirm('Tem certeza que deseja alterar o status deste horário?')) {
+        // Implementar AJAX para toggle do status
+        console.log('Toggle horário:', horarioId);
+        // Por enquanto, recarregar a página
+        location.reload();
+    }
+}
+
+function removerHorario(horarioId) {
+    if (confirm('Tem certeza que deseja remover este horário? Esta ação não pode ser desfeita.')) {
+        // Implementar AJAX para remoção
+        console.log('Remover horário:', horarioId);
+        // Por enquanto, recarregar a página
+        location.reload();
+    }
+}
+
+// Validação do formulário
+document.querySelector('form').addEventListener('submit', function(e) {
+    const horaInicio = document.getElementById('hora_inicio').value;
+    const horaFim = document.getElementById('hora_fim').value;
+    
+    if (horaInicio >= horaFim) {
+        e.preventDefault();
+        alert('A hora de início deve ser anterior à hora de fim.');
+    }
+});
+</script>
+{% endblock %}

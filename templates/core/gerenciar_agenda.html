@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+
+{% block title %}Gerenciar Agenda - Sistema Médico{% endblock %}
+
+{% block extra_css %}
+<style>
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background-color: #ddd;
+    border: 1px solid #ddd;
+}
+
+.calendar-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.calendar-day {
+    background-color: white;
+    padding: 10px;
+    min-height: 60px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background-color: #f8f9fa;
+}
+
+.calendar-day.other-month {
+    color: #ccc;
+    background-color: #f8f9fa;
+}
+
+.calendar-day.today {
+    background-color: #e3f2fd;
+    font-weight: bold;
+}
+
+.calendar-day.available {
+    background-color: #d4edda;
+    border: 2px solid #28a745;
+}
+
+.calendar-day.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.day-number {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.day-indicator {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #28a745;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-calendar"></i> Gerenciar Agenda</h2>
+        <p class="text-muted">Configure suas datas e horários disponíveis</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Calendário -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5><i class="fas fa-calendar-alt"></i> Selecionar Data</h5>
+                <div>
+                    <button class="btn btn-outline-primary btn-sm" onclick="previousMonth()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="currentMonth" class="mx-3"></span>
+                    <button class="btn btn-outline-primary btn-sm" onclick="nextMonth()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="calendar" id="calendar">
+                    <div class="calendar-header">Dom</div>
+                    <div class="calendar-header">Seg</div>
+                    <div class="calendar-header">Ter</div>
+                    <div class="calendar-header">Qua</div>
+                    <div class="calendar-header">Qui</div>
+                    <div class="calendar-header">Sex</div>
+                    <div class="calendar-header">Sáb</div>
+                </div>
+                
+                <div class="mt-3">
+                    <small class="text-muted">
+                        <span class="badge bg-success me-2"></span> Dias com disponibilidade
+                        <span class="badge bg-primary me-2 ms-3"></span> Data selecionada
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Formulário -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-plus"></i> Adicionar Disponibilidade</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" id="agendaForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="add_data">
+                    
+                    <div class="mb-3">
+                        <label for="data" class="form-label">Data Selecionada</label>
+                        <input type="date" class="form-control" id="data" name="data" required readonly>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hora_inicio" class="form-label">Horário de Início</label>
+                        <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hora_fim" class="form-label">Horário de Fim</label>
+                        <input type="time" class="form-control" id="hora_fim" name="hora_fim" required>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <small>
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Intervalo atual:</strong> {{ perfil_medico.intervalo_consulta }} minutos<br>
+                            Os horários serão divididos automaticamente conforme este intervalo.
+                        </small>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success" disabled id="submitBtn">
+                            <i class="fas fa-plus"></i> Adicionar Disponibilidade
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Configurações -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6><i class="fas fa-cog"></i> Configurações</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Valor por consulta:</strong> R$ {{ perfil_medico.valor_consulta }}</p>
+                <p><strong>Intervalo:</strong> {{ perfil_medico.intervalo_consulta }} minutos</p>
+                <small class="text-muted">
+                    Altere essas configurações no dashboard principal.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lista de Datas Disponíveis -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list"></i> Datas Disponíveis Cadastradas</h5>
+            </div>
+            <div class="card-body">
+                {% if datas_disponiveis %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Horário</th>
+                                    <th>Consultas Agendadas</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in datas_disponiveis %}
+                                <tr>
+                                    <td>{{ data.data|date:"d/m/Y" }}</td>
+                                    <td>{{ data.hora_inicio }} às {{ data.hora_fim }}</td>
+                                    <td>
+                                        {% with consultas=data.medico.consultas.all %}
+                                            {% for consulta in consultas %}
+                                                {% if consulta.data_hora.date == data.data and consulta.status != 'cancelada' %}
+                                                    <span class="badge bg-info">{{ consulta.data_hora|date:"H:i" }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'remover_data_disponivel' data.id %}" 
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('Tem certeza? Consultas agendadas serão canceladas.')">
+                                            <i class="fas fa-trash"></i> Remover
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-calendar-plus fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Nenhuma data disponível cadastrada ainda.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentDate = new Date();
+let selectedDate = null;
+let datasDisponiveis = [];
+
+// Carregar datas disponíveis do backend
+{% if datas_disponiveis %}
+datasDisponiveis = [
+    {% for data in datas_disponiveis %}
+    '{{ data.data|date:"Y-m-d" }}',
+    {% endfor %}
+];
+{% endif %}
+
+function renderCalendar() {
+    const calendar = document.getElementById('calendar');
+    const monthSpan = document.getElementById('currentMonth');
+    
+    // Limpar calendário (manter cabeçalhos)
+    while (calendar.children.length > 7) {
+        calendar.removeChild(calendar.lastChild);
+    }
+    
+    // Atualizar título do mês
+    monthSpan.textContent = currentDate.toLocaleDateString('pt-BR', { 
+        month: 'long', 
+        year: 'numeric' 
+    });
+    
+    // Primeiro dia do mês
+    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    
+    // Dias do mês anterior para completar a primeira semana
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    
+    // Gerar 42 dias (6 semanas)
+    for (let i = 0; i < 42; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
+        
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        
+        const dayNumber = document.createElement('div');
+        dayNumber.className = 'day-number';
+        dayNumber.textContent = date.getDate();
+        dayElement.appendChild(dayNumber);
+        
+        // Verificar se é do mês atual
+        if (date.getMonth() !== currentDate.getMonth()) {
+            dayElement.classList.add('other-month');
+        }
+        
+        // Verificar se é hoje
+        const today = new Date();
+        if (date.toDateString() === today.toDateString()) {
+            dayElement.classList.add('today');
+        }
+        
+        // Verificar se é uma data disponível
+        const dateString = date.toISOString().split('T')[0];
+        if (datasDisponiveis.includes(dateString)) {
+            const indicator = document.createElement('div');
+            indicator.className = 'day-indicator';
+            dayElement.appendChild(indicator);
+            dayElement.classList.add('available');
+        }
+        
+        // Verificar se é a data selecionada
+        if (selectedDate && date.toDateString() === selectedDate.toDateString()) {
+            dayElement.classList.add('selected');
+        }
+        
+        // Não permitir seleção de datas passadas ou de outros meses
+        if (date >= today && date.getMonth() === currentDate.getMonth()) {
+            dayElement.addEventListener('click', () => selectDate(date));
+        } else if (date < today || date.getMonth() !== currentDate.getMonth()) {
+            dayElement.style.cursor = 'not-allowed';
+            dayElement.style.opacity = '0.5';
+        }
+        
+        calendar.appendChild(dayElement);
+    }
+}
+
+function selectDate(date) {
+    selectedDate = date;
+    const dateInput = document.getElementById('data');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    dateInput.value = date.toISOString().split('T')[0];
+    submitBtn.disabled = false;
+    
+    renderCalendar();
+}
+
+function previousMonth() {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+}
+
+function nextMonth() {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+}
+
+// Validação do formulário
+document.getElementById('agendaForm').addEventListener('submit', function(e) {
+    const horaInicio = document.getElementById('hora_inicio').value;
+    const horaFim = document.getElementById('hora_fim').value;
+    
+    if (horaInicio >= horaFim) {
+        e.preventDefault();
+        alert('Horário de início deve ser anterior ao horário de fim!');
+        return;
+    }
+    
+    // Verificar se já existe disponibilidade para esta data
+    const dataSelecionada = document.getElementById('data').value;
+    if (datasDisponiveis.includes(dataSelecionada)) {
+        if (!confirm('Já existe disponibilidade para esta data. Deseja adicionar outro horário?')) {
+            e.preventDefault();
+            return;
+        }
+    }
+});
+
+// Inicializar calendário
+document.addEventListener('DOMContentLoaded', function() {
+    renderCalendar();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Médico - Sistema Médico{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+        opacity: 0.8;
+    }
+    
+    .action-card {
+        transition: all 0.3s;
+    }
+    
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .consulta-item {
+        transition: all 0.2s;
+        border-left: 4px solid transparent;
+    }
+    
+    .consulta-item:hover {
+        background-color: #f8fafc;
+        border-left-color: #2563eb;
+    }
+    
+    .data-disponivel-card {
+        border-left: 4px solid #10b981;
+        transition: all 0.2s;
+    }
+    
+    .data-disponivel-card:hover {
+        background-color: #f0fdf4;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-tachometer-alt"></i> Dashboard Médico</h2>
+        <p class="text-muted">Bem-vindo, Dr(a). {{ user.get_full_name }}</p>
+    </div>
+</div>
+
+<!-- Estatísticas -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ total_consultas_mes }}</h4>
+                        <p>Consultas este Mês</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ consultas_realizadas_mes }}</h4>
+                        <p>Consultas Realizadas</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>R$ {{ perfil_medico.valor_consulta }}</h4>
+                        <p>Valor por Consulta</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ perfil_medico.intervalo_consulta }}min</h4>
+                        <p>Intervalo Consultas</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ações Rápidas -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card action-card">
+            <div class="card-header">
+                <h5><i class="fas fa-dollar-sign"></i> Alterar Valor da Consulta</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'gerenciar_agenda' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_valor">
+                    <div class="mb-3">
+                        <label for="valor_consulta" class="form-label">Novo Valor (R$)</label>
+                        <input type="number" class="form-control" id="valor_consulta" name="valor_consulta" 
+                               step="0.01" min="0" value="{{ perfil_medico.valor_consulta }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Atualizar Valor
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card action-card">
+            <div class="card-header">
+                <h5><i class="fas fa-clock"></i> Alterar Intervalo</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'gerenciar_agenda' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_intervalo">
+                    <div class="mb-3">
+                        <label for="intervalo_consulta" class="form-label">Intervalo (minutos)</label>
+                        <select class="form-select" id="intervalo_consulta" name="intervalo_consulta" required>
+                            <option value="15" {% if perfil_medico.intervalo_consulta == 15 %}selected{% endif %}>15 minutos</option>
+                            <option value="30" {% if perfil_medico.intervalo_consulta == 30 %}selected{% endif %}>30 minutos</option>
+                            <option value="45" {% if perfil_medico.intervalo_consulta == 45 %}selected{% endif %}>45 minutos</option>
+                            <option value="60" {% if perfil_medico.intervalo_consulta == 60 %}selected{% endif %}>60 minutos</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-save"></i> Atualizar Intervalo
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card action-card">
+            <div class="card-header">
+                <h5><i class="fas fa-calendar-plus"></i> Ações</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'gerenciar_agenda' %}" class="btn btn-success">
+                        <i class="fas fa-calendar"></i> Gerenciar Agenda
+                    </a>
+                    <button class="btn btn-outline-primary" onclick="window.print()">
+                        <i class="fas fa-print"></i> Imprimir Agenda
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Próximas Consultas -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-calendar-check"></i> Próximas Consultas</h5>
+            </div>
+            <div class="card-body">
+                {% if consultas_proximas %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Paciente</th>
+                                    <th>Data/Hora</th>
+                                    <th>Status</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for consulta in consultas_proximas %}
+                                <tr class="consulta-item">
+                                    <td>{{ consulta.paciente.get_full_name }}</td>
+                                    <td>{{ consulta.data_hora|date:"d/m/Y H:i" }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if consulta.status == 'agendada' %}warning{% elif consulta.status == 'confirmada' %}success{% else %}secondary{% endif %}">
+                                            {{ consulta.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>R$ {{ consulta.valor }}</td>
+                                    <td>
+                                        <a href="{% url 'cancelar_consulta' consulta.id %}" 
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('Tem certeza que deseja cancelar esta consulta?')">
+                                            <i class="fas fa-times"></i> Cancelar
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-calendar fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Nenhuma consulta agendada.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Datas Disponíveis -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-calendar-alt"></i> Minhas Datas Disponíveis</h5>
+            </div>
+            <div class="card-body">
+                {% if datas_disponiveis %}
+                    <div class="row">
+                        {% for data in datas_disponiveis %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card data-disponivel-card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ data.data|date:"d/m/Y" }}</h6>
+                                    <p class="card-text">
+                                        <i class="fas fa-clock"></i> {{ data.hora_inicio }} às {{ data.hora_fim }}
+                                    </p>
+                                    <a href="{% url 'remover_data_disponivel' data.id %}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Tem certeza? Consultas agendadas serão canceladas.')">
+                                        <i class="fas fa-trash"></i> Remover
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-calendar-plus fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">
+                            Nenhuma data disponível cadastrada. 
+                            <a href="{% url 'gerenciar_agenda' %}">Clique aqui para adicionar</a>
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

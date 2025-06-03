@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro - Sistema Médico{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4><i class="fas fa-user-plus"></i> Cadastrar-se</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" id="registerForm">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">Nome *</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Sobrenome *</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nome de Usuário *</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                        <div class="form-text">Apenas letras, números e @/./+/-/_</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone</label>
+                        <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="(11) 99999-9999">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha *</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="form-text">Mínimo 8 caracteres</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirmar Senha *</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="tipo_usuario" class="form-label">Tipo de Usuário *</label>
+                        <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                            <option value="">Selecione...</option>
+                            <option value="paciente">Paciente</option>
+                            <option value="medico">Médico</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Campos específicos para médicos -->
+                    <div id="campos_medico" style="display: none;">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Atenção:</strong> Para criar uma conta médica, você precisa de uma senha de autorização.
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="senha_medico" class="form-label">Senha de Autorização Médica *</label>
+                            <input type="password" class="form-control" id="senha_medico" name="senha_medico" placeholder="Digite a senha de autorização">
+                            <div class="form-text">Entre em contato com a administração para obter esta senha</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="crm" class="form-label">CRM *</label>
+                            <input type="text" class="form-control" id="crm" name="crm" placeholder="12345-DF">
+                            <div class="form-text">Formato: número-UF (ex: 12345-DF), Não esqueça o "-"</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="especialidade" class="form-label">Especialidade *</label>
+                            <select class="form-select" id="especialidade" name="especialidade">
+                                <option value="">Selecione uma especialidade...</option>
+                                {% for especialidade in especialidades %}
+                                    <option value="{{ especialidade.id }}">{{ especialidade.nome }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if not especialidades %}
+                                <div class="form-text text-danger">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Nenhuma especialidade cadastrada. Entre em contato com a administração.
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="valor_consulta" class="form-label">Valor da Consulta (R$)</label>
+                            <input type="number" class="form-control" id="valor_consulta" name="valor_consulta" 
+                                   step="0.01" min="0" placeholder="150.00">
+                            <div class="form-text">Valor padrão por consulta (pode ser alterado depois)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="fas fa-user-plus"></i> Cadastrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <small class="text-muted">
+                    Já tem uma conta? 
+                    <a href="{% url 'login' %}">Entre aqui</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tipoUsuario = document.getElementById('tipo_usuario');
+    const camposMedico = document.getElementById('campos_medico');
+    const crmField = document.getElementById('crm');
+    const especialidadeField = document.getElementById('especialidade');
+    const senhaMedicoField = document.getElementById('senha_medico');
+    const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Mostrar/ocultar campos específicos para médicos
+    tipoUsuario.addEventListener('change', function() {
+        if (this.value === 'medico') {
+            camposMedico.style.display = 'block';
+            crmField.required = true;
+            especialidadeField.required = true;
+            senhaMedicoField.required = true;
+        } else {
+            camposMedico.style.display = 'none';
+            crmField.required = false;
+            especialidadeField.required = false;
+            senhaMedicoField.required = false;
+        }
+    });
+    
+    // Validação do formulário
+    form.addEventListener('submit', function(e) {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+        const tipoUsuarioValue = tipoUsuario.value;
+        
+        // Validar senhas
+        if (password !== confirmPassword) {
+            e.preventDefault();
+            alert('As senhas não conferem!');
+            return;
+        }
+        
+        // Validar tamanho da senha
+        if (password.length < 8) {
+            e.preventDefault();
+            alert('A senha deve ter pelo menos 8 caracteres!');
+            return;
+        }
+        
+        // Validações específicas para médicos
+        if (tipoUsuarioValue === 'medico') {
+            const crm = crmField.value.trim();
+            const especialidade = especialidadeField.value;
+            const senhaMedico = senhaMedicoField.value;
+            
+            if (!crm) {
+                e.preventDefault();
+                alert('CRM é obrigatório para médicos!');
+                return;
+            }
+            
+            if (!especialidade) {
+                e.preventDefault();
+                alert('Especialidade é obrigatória para médicos!');
+                return;
+            }
+            
+            if (!senhaMedico) {
+                e.preventDefault();
+                alert('Senha de autorização médica é obrigatória!');
+                return;
+            }
+            
+            // Validar formato do CRM (básico)
+            const crmPattern = /^\d+-[A-Z]{2}$/;
+            if (!crmPattern.test(crm)) {
+                e.preventDefault();
+                alert('Formato do CRM inválido! Use o formato: 12345-SP');
+                return;
+            }
+        }
+        
+        // Desabilitar botão para evitar duplo envio
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cadastrando...';
+    });
+    
+    // Formatação automática do telefone
+    const telefoneField = document.getElementById('telefone');
+    telefoneField.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 11) {
+            value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        } else if (value.length >= 7) {
+            value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+        } else if (value.length >= 3) {
+            value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+        }
+        e.target.value = value;
+    });
+    
+    // Formatação automática do CRM
+    crmField.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^\d\-A-Z]/g, '').toUpperCase();
+        e.target.value = value;
+    });
+});
+</script>
+{% endblock %}
