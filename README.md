@@ -64,67 +64,67 @@ Sistema web completo para agendamento de consultas médicas desenvolvido em Djan
 ## 🚀 Instalação e Configuração
 
 ### 1. Clone o repositório
-\`\`\`bash
+```bash
 git clone <repository-url>
 cd projeto_consultas_medicas
-\`\`\`
+```
 
 ### 2. Crie um ambiente virtual
-\`\`\`bash
+```bash
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
 # ou
 venv\Scripts\activate  # Windows
-\`\`\`
+```
 
 ### 3. Instale as dependências
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ### 4. Configure o banco de dados MySQL
-\`\`\`sql
+```sql
 CREATE DATABASE medical_system;
 CREATE USER 'medical_user'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON medical_system.* TO 'medical_user'@'localhost';
 FLUSH PRIVILEGES;
-\`\`\`
+```
 
 ### 5. Configure as variáveis de ambiente
 Copie o arquivo `.env.example` para `.env` e configure suas variáveis.
 
 ### 6. Execute as migrações
-\`\`\`bash
+```bash
 python manage.py makemigrations core
 python manage.py makemigrations
 python manage.py migrate
-\`\`\`
+```
 
 ### 7. Crie dados iniciais
-\`\`\`bash
+```bash
 python manage.py setup_initial_data
 python manage.py migrar_horarios
-\`\`\`
+```
 
 ### 8. Crie um superusuário
-\`\`\`bash
+```bash
 python manage.py createsuperuser
-\`\`\`
+```
 
 ### 9. Inicie o Redis (em terminal separado)
-\`\`\`bash
+```bash
 redis-server
-\`\`\`
+```
 
 ### 10. Inicie o Celery (em terminal separado)
-\`\`\`bash
+```bash
 celery -A medical_system worker --loglevel=info
-\`\`\`
+```
 
 ### 11. Inicie o servidor Django
-\`\`\`bash
+```bash
 python manage.py runserver 0.0.0.0:8000
-\`\`\`
+```
 
 ## 📱 Guia de Uso
 
