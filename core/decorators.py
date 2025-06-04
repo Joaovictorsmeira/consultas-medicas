@@ -17,6 +17,9 @@ def log_evento(nivel='INFO', mensagem_personalizada=None):
             mensagem = mensagem_personalizada or f"Executando {func.__name__}"
             getattr(logger, nivel.lower())(f"[INÍCIO] {mensagem}")
             
+            # DEBUG: logar parâmetros
+            logger.debug(f"[DEBUG] {func.__name__} chamado com args={args}, kwargs={kwargs}")
+            
             try:
                 result = func(*args, **kwargs)
                 
@@ -30,6 +33,10 @@ def log_evento(nivel='INFO', mensagem_personalizada=None):
             except Exception as e:
                 # Log de erro
                 logger.error(f"[ERRO] {func.__name__}: {str(e)}")
+                
+                # CRITICAL: log extra para falha grave
+                logger.critical(f"[CRITICAL] Falha crítica na execução de {func.__name__}: {str(e)}")
+                
                 raise
                 
         return wrapper
